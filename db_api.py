@@ -1,10 +1,14 @@
 import psycopg2
+from xlsxwriter import Workbook
+import pandas
 
 db_name = "railway"
 db_user = "postgres"
 db_password = "Q9KQON3sAe744O7b0fRD"
 db_host = "containers-us-west-48.railway.app"
 db_port = "7276"
+
+DB_USERS_COLUMNS = ["user_id", "username", "first_name", "last_name"]
 
 db_connection_config = {
     "dbname": db_name,
@@ -13,6 +17,17 @@ db_connection_config = {
     "port": db_port,
     "host": db_host
 }
+
+
+class DataConvertor:
+
+    def convert_to_exel(self, data, doc_name):
+        workbook = Workbook(f"{doc_name}.xlsx")
+        bold = workbook.add_format({"bold": True})
+        worksheet = workbook.add_worksheet()
+
+        for i in DB_USERS_COLUMNS:
+            worksheet.write(f"A{DB_USERS_COLUMNS.index(i)}", i, bold)
 
 
 class DataBaseManager:
@@ -50,6 +65,7 @@ class PostgresDataBaseManager(DataBaseManager):
         self.cursor.execute(sql_add_user)
         self.connection.commit()
         self.close_connection()
+        return True
 
     def get_user(self, user):
         self.set_connection()
@@ -71,3 +87,5 @@ class PostgresDataBaseManager(DataBaseManager):
         user_data = self.get_user(user)
         if not user_data:
             self.add_user(user=user)
+        return True
+

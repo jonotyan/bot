@@ -7,7 +7,7 @@ from aiogram.types import ReplyKeyboardRemove, ReplyKeyboardMarkup, ReplyKeyboar
     InlineKeyboardMarkup, InlineKeyboardButton
 import logging
 import os
-from db_api import PostgresDataBaseManager, db_connection_config
+from db_api import PostgresDataBaseManager, db_connection_config, DataConvertor
 import texts
 
 TOKEN = '1821787822:AAEFr22t2_sfYU1Ms-IMLooSMp_5BnOcYEk'
@@ -95,6 +95,8 @@ async def menu(callback_query: types.CallbackQuery):
 @dp.message_handler(lambda message: message.from_user.id in ADMINS, text="Получить базу пользователей")
 async def test(callback_query: types.CallbackQuery):
     data = db.get_all_users()
+    ddd = DataConvertor()
+    ddd.convert_to_exel(data, "users")
     await callback_query.answer(data)
 
 
