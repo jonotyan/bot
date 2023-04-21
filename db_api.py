@@ -44,8 +44,8 @@ class PostgresDataBaseManager(DataBaseManager):
         self.set_connection()
         sql_add_user = \
             f"""
-                INSERT INTO users(user_id, username, first_name) 
-                VALUES('{user.id}', '{user.username}', '{user.first_name}')
+                INSERT INTO users(user_id, username, first_name, last_name) 
+                VALUES('{user.id}', '{user.username}', '{user.first_name}', '{user.last_name}')
             """
         self.cursor.execute(sql_add_user)
         self.connection.commit()
