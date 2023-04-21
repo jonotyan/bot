@@ -128,10 +128,9 @@ async def files(message: types.Message):
 
 @dp.message_handler(text="Мы в социальных сетях 🔈")
 async def files(message: types.Message):
-    btn1 = InlineKeyboardButton("Перейти", url="https://www.facebook.com/AMECAlmaty")
-    btn2 = InlineKeyboardButton("Перейти", url="https://www.instagram.com/amec_almaty/")
-    await message.answer('Facebook страница проекта', reply_markup=InlineKeyboardMarkup().add(btn1))
-    await message.answer('Instagram страница проекта', reply_markup=InlineKeyboardMarkup().add(btn2))
+    btn1 = InlineKeyboardButton("Перейти в Facebook", url="https://www.facebook.com/AMECAlmaty")
+    btn2 = InlineKeyboardButton("Перейти в Instagram", url="https://www.instagram.com/amec_almaty/")
+    await message.answer('Facebook и Instagram страница проекта', reply_markup=InlineKeyboardMarkup().add(btn1, btn2))
 
 
 @dp.message_handler(content_types=["document"])
