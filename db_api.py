@@ -2,9 +2,9 @@ import psycopg2
 
 db_name = "railway"
 db_user = "postgres"
-db_password = "ehM0BI5onWelswrY6UMn"
-db_host = "containers-us-west-72.railway.app"
-db_port = "6695"
+db_password = "Q9KQON3sAe744O7b0fRD"
+db_host = "containers-us-west-48.railway.app"
+db_port = "7276"
 
 db_connection_config = {
     "dbname": db_name,
