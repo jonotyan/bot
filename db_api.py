@@ -1,6 +1,6 @@
 import psycopg2
 from xlsxwriter import Workbook
-import pandas
+
 
 db_name = "railway"
 db_user = "postgres"
