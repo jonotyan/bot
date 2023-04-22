@@ -7,7 +7,7 @@ from aiogram.types import ReplyKeyboardRemove, ReplyKeyboardMarkup, ReplyKeyboar
     InlineKeyboardMarkup, InlineKeyboardButton
 import logging
 import os
-from db_api import PostgresDataBaseManager, db_connection_config, DataConvertor
+from db_api import PostgresDataBaseManager, db_connection_config, DataConvertor, DB_USERS_COLUMNS
 import texts
 
 TOKEN = '1821787822:AAEFr22t2_sfYU1Ms-IMLooSMp_5BnOcYEk'
@@ -32,6 +32,7 @@ async def on_startup(_):
 
 class test_language(StatesGroup):
     language = State()
+    temp = State
 
 
 class the_big_test(StatesGroup):
@@ -60,6 +61,7 @@ class the_big_test(StatesGroup):
 @dp.message_handler(commands='start', state="*")
 async def start(message: types.Message):
     print(message.from_user.username)
+
     if not message.from_user.username:
         await message.answer('Ваш профиль не имеет логина. Указать его можно в настройках.\n\n'
                              'Инструкция: https://inetfishki.ru/telegram/kak-uznat-dobavit-pomenyat-login.html#i-4')
@@ -94,10 +96,13 @@ async def menu(callback_query: types.CallbackQuery):
 
 @dp.message_handler(lambda message: message.from_user.id in ADMINS, text="Получить базу пользователей")
 async def test(callback_query: types.CallbackQuery):
-    data = db.get_all_users()
-    ddd = DataConvertor()
-    ddd.convert_to_exel(data, "users")
-    await callback_query.answer(data)
+    file_name = "users"
+    users_data = db.get_all_users()
+    data_convertor = DataConvertor()
+    saved_file_path = await data_convertor.convert_to_exel(users_data, DB_USERS_COLUMNS, file_name)
+
+    with open(saved_file_path, "rb") as exel_users_data:
+        await bot.send_document(chat_id=callback_query.from_user.id, document=exel_users_data)
 
 
 @dp.message_handler(text="Всё о доконтактной профилактике ВИЧ 📚")
