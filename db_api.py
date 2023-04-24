@@ -48,6 +48,7 @@ class DataBaseManager:
                 """
             )
         self.cursor = self.connection.cursor()
+        return self.connection
 
     def close_connection(self):
         self.connection.close()
@@ -87,5 +88,6 @@ class PostgresDataBaseManager(DataBaseManager):
         user_data = self.get_user(user)
         if not user_data:
             self.add_user(user=user)
+
         return True
 
